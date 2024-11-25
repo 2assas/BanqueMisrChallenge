@@ -9,5 +9,12 @@ class FetchMoviesUseCase(
 ) {
     suspend operator fun invoke(category: MovieCategory): List<Movie> {
         return repository.fetchMovies(category)
+            .filter { movie ->
+                isValidMovie(movie)
+            }
+    }
+
+    private fun isValidMovie(movie: Movie): Boolean {
+        return movie.id > 0 && !movie.title.isNullOrEmpty()
     }
 }

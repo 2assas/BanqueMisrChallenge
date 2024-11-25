@@ -6,5 +6,5 @@ import banquemisr.challenge05.domain.entities.MovieCategory
 
 interface MovieRepository {
     suspend fun fetchMovies(category: MovieCategory): List<Movie>
-    suspend fun getMovieDetails(movieId: Int): DetailedMovie
+    suspend fun fetchMovieDetails(movieId: Int): DetailedMovie
 }
