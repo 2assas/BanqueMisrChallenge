@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "BanqueMisrChallenge"
 include(":app")
 include(":domain")
+include(":data")
