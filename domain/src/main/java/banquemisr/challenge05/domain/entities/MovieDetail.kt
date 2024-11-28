@@ -1,7 +1,7 @@
 package banquemisr.challenge05.domain.entities
 
 
-data class DetailedMovie (
+data class MovieDetail (
     val id: Int,
     val title: String,
     val releaseDate: String? = null,

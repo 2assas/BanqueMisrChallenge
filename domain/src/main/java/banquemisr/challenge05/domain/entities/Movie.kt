@@ -1,7 +1,7 @@
 package banquemisr.challenge05.domain.entities
 
 data class Movie (
-    val id: Long,
+    val id: Int,
     val title: String? = null,
     val releaseDate: String? = null,
     val posterPath: String? = null,
