@@ -1,5 +1,6 @@
 package banquemisr.challenge05.data.di
 
+import banquemisr.challenge05.data.BuildConfig
 import banquemisr.challenge05.data.dataSource.remote.MovieApiService
 import dagger.Module
 import dagger.Provides
@@ -25,11 +26,18 @@ object NetworkModule {
             .build()
     }
 
+
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideBaseUrl(): String {
+        return BuildConfig.BASE_URL  // Provide the actual URL here
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

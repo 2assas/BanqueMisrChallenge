@@ -6,7 +6,7 @@ import banquemisr.challenge05.domain.repositories.Mapper
 
 class MovieListMapper : Mapper<MovieResponse, List<Movie>> {
     override fun toDomain(dto: MovieResponse) =
-        dto.results?.map {
+        dto.movieDtoList?.map {
             Movie(
                 id = it?.id ?: 0,
                 title = it?.title ?: "",

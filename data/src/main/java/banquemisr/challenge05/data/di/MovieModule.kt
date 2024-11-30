@@ -1,5 +1,6 @@
 package banquemisr.challenge05.data.di
 
+import banquemisr.challenge05.data.dataSource.local.MovieLocalDataSource
 import banquemisr.challenge05.data.dataSource.remote.MovieApiService
 import banquemisr.challenge05.data.dataSource.remote.MovieRemoteDataSource
 import banquemisr.challenge05.data.mappers.MovieDetailMapper
@@ -41,10 +42,16 @@ object MovieModule {
     @Singleton
     fun provideMovieRepository(
         remoteDataSource: MovieRemoteDataSource,
+        localDataSource: MovieLocalDataSource,
         movieMapper: MovieListMapper,
         movieDetailMapper: MovieDetailMapper
     ): MovieRepository {
-        return MovieRepositoryImpl(remoteDataSource, movieMapper, movieDetailMapper)
+        return MovieRepositoryImpl(
+            remoteDataSource,
+            localDataSource,
+            movieMapper,
+            movieDetailMapper
+        )
     }
 
     @Provides

@@ -7,7 +7,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
-kotlin {
+kotlin{
     jvmToolchain(21)
 }
 tasks.withType<Test> {
@@ -20,5 +20,4 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.mockito.kotlin)
-
 }

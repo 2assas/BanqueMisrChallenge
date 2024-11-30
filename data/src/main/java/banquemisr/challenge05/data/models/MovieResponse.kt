@@ -9,13 +9,13 @@ data class MovieResponse(
     @SerializedName("page")
     val page: Int? = null,
     @SerializedName("results")
-    val results: List<Result?>? = null,
+    val movieDtoList: List<MovieDto?>? = null,
     @SerializedName("total_pages")
     val totalPages: Int? = null,
     @SerializedName("total_results")
     val totalResults: Int? = null
 ) {
-    data class Result(
+    data class MovieDto(
         @SerializedName("adult")
         val adult: Boolean? = null,
         @SerializedName("backdrop_path")
