@@ -35,7 +35,7 @@ fun HorizontalMovieList(
         state = lazyListState,
         contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
-        items(movies, key = { it.id }) { movie ->
+        items(movies) { movie ->
            AnimatedVisibility(true) {
                 MovieItem(movie) {
                     onItemClick(movie.id)
