@@ -1,4 +1,4 @@
-![Movie detail](https://github.com/user-attachments/assets/7b430acf-0c29-433d-af2a-36cfe6c5a100)# Movie App - Project
+## Movie App - Project
 
 A feature-rich mobile application for browsing movies, viewing details, and managing tabs efficiently. Built using modern Android development practices, this project leverages **Jetpack Compose** for the UI, **Paging** for efficient data loading, and **Hilt** for dependency injection.
 
@@ -28,11 +28,11 @@ The app follows a clean and scalable architecture, with **Jetpack Compose** for 
 
 Below are the screenshots showcasing the main features of the app:
 
-![Screenshot 1](![movies list](https://github.com/user-attachments/assets/aac6aba1-1e2e-4b59-aaa1-b61d9f84ae41)
-)
-*Movie List with Pagination*
+![movies list](https://github.com/user-attachments/assets/aac6aba1-1e2e-4b59-aaa1-b61d9f84ae41)
 
-![Screenshot 2] ![Movie detail](https://github.com/user-attachments/assets/6251eb49-524c-4263-aa12-cbaf837ea6bb)
+![Movie detail (3)](https://github.com/user-attachments/assets/14635007-5a4a-4724-b909-5d0365f82fe2)
+
+*Movie List with Pagination*
 
 *Movie Detail Screen*
 
