@@ -25,7 +25,8 @@ class MovieListLocalMapper : Mapper<MovieEntity, Movie> {
             releaseDate = movie.releaseDate,
             posterPath = movie.posterPath,
             voteAverage = movie.voteAverage,
-            page = 1 // Assuming page information is available from pagination
+            page = 1,
+            category = "popular"
         )
     }
 }

@@ -22,7 +22,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun fetchMovies(category: MovieCategory, page: Int): Result<List<Movie>?> =
         withContext(Dispatchers.IO) {
             // First try fetching from the local cache
-            val cachedMovies = localDataSource.getMovies(page)
+            val cachedMovies = localDataSource.getMovies(page, category.apiPath)
             if (cachedMovies.isNotEmpty()) {
                 return@withContext Result.success(cachedMovies)
             }
@@ -32,7 +32,7 @@ class MovieRepositoryImpl @Inject constructor(
                 val response = remoteDataSource.fetchMovies(category.apiPath, page)
                 val movies = movieMapper.toDomain(response)
                 // Save the fetched movies to the local database
-                localDataSource.saveMovies(movies, page)
+                localDataSource.saveMovies(movies, page, category.apiPath)
                 Result.success(movies)
             } catch (e: Exception) {
                 Result.failure(e)

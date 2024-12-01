@@ -21,14 +21,37 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
+            buildConfigField(
+                "String",
+                "IMAGE_BASE_URL",
+                "\"https://image.tmdb.org/t/p/w500\""
+            )
+            buildConfigField(
+                "String",
+                "TOKEN",
+                "\"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNTcwNzM2NTE0YTM2Y2E4OTk5NzNkNjY1ZmEwOTE2YyIsIm5iZiI6MTczMjUyOTc3MS4xOTMxMTUsInN1YiI6IjY3NDQ0Y2MxZGFlMmU2YTkzODI1ZTE5NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DrEs_tp7PjCa1fibRq8vhs_C-WEdeCCCbF8vngiyKWQ\""
+            )
+
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
+            buildConfigField(
+                "String",
+                "IMAGE_BASE_URL",
+                "\"https://image.tmdb.org/t/p/w500\""
+            )
+            buildConfigField(
+                "String",
+                "TOKEN",
+                "\"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNTcwNzM2NTE0YTM2Y2E4OTk5NzNkNjY1ZmEwOTE2YyIsIm5iZiI6MTczMjUyOTc3MS4xOTMxMTUsInN1YiI6IjY3NDQ0Y2MxZGFlMmU2YTkzODI1ZTE5NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DrEs_tp7PjCa1fibRq8vhs_C-WEdeCCCbF8vngiyKWQ\""
+            )
+
         }
     }
     compileOptions {

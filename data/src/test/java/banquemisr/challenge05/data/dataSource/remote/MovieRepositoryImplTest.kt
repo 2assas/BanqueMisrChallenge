@@ -45,10 +45,12 @@ class MovieRepositoryImplTest {
     fun `should fetch movies from cache if available`() = runTest {
         // Arrange
         val cachedMovies = listOf(Movie(1, "Cached Title"))
-        `when`(localDataSource.getMovies(1)).thenReturn(cachedMovies)
+        val type = "popular"
+        val page = 1
+        `when`(localDataSource.getMovies(page, type)).thenReturn(cachedMovies)
 
         // Act
-        val result = movieRepository.fetchMovies(MovieCategory.UPCOMING, 1)
+        val result = movieRepository.fetchMovies(MovieCategory.UPCOMING, page)
 
         // Assert
         assertTrue(result.isSuccess)
@@ -61,6 +63,7 @@ class MovieRepositoryImplTest {
         // Arrange
         val category = MovieCategory.UPCOMING
         val page = 1
+        val type = "popular"
         val remoteMoviesDto = MovieResponse(
             movieDtoList = listOf(
                 MovieResponse.MovieDto(
@@ -71,7 +74,7 @@ class MovieRepositoryImplTest {
             )
         )
         val mappedMovies = listOf(Movie(1, "Remote Title"))
-        `when`(localDataSource.getMovies(page)).thenReturn(emptyList())
+        `when`(localDataSource.getMovies(page, type)).thenReturn(emptyList())
         `when`(
             remoteDataSource.fetchMovies(
                 category.apiPath,
@@ -87,6 +90,6 @@ class MovieRepositoryImplTest {
         // Assert
         assertTrue(result.isSuccess)
         assertEquals(mappedMovies, result.getOrNull())
-        verify(localDataSource).saveMovies(mappedMovies, page)
+        verify(localDataSource).saveMovies(mappedMovies, page, type)
     }
 }

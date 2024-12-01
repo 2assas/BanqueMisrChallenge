@@ -1,5 +1,6 @@
 package banquemisr.challenge05.data.mappers
 
+import banquemisr.challenge05.data.BuildConfig
 import banquemisr.challenge05.data.models.MovieDetailResponse
 import banquemisr.challenge05.domain.entities.MovieDetail
 import banquemisr.challenge05.domain.repositories.Mapper
@@ -11,7 +12,7 @@ class MovieDetailMapper : Mapper<MovieDetailResponse, MovieDetail> {
                 id = id ?: 0,
                 title = title ?: "",
                 releaseDate = releaseDate,
-                posterPath = posterPath,
+                posterPath = BuildConfig.IMAGE_BASE_URL + posterPath,
                 overview = overview,
                 genres = genres?.map { it?.name ?: "" },
                 runtime = runtime,

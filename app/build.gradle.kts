@@ -72,11 +72,14 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.javapoet)
-
+    implementation(libs.androidx.navigation.compose)
+    implementation (libs.google.accompanist.systemuicontroller)
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.coil.compose)
 
     implementation(project(":domain"))
     implementation(project(":data"))

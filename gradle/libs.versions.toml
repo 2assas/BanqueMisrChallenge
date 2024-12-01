@@ -1,5 +1,7 @@
 [versions]
+accompanistSystemuicontrollerVersion = "0.30.1"
 agp = "8.6.1"
+coilCompose = "2.4.0"
 javapoet = "1.13.0"
 kotlin = "2.0.20"
 coreKtx = "1.15.0"
@@ -19,6 +21,7 @@ appcompat = "1.7.0"
 material = "1.12.0"
 hilt = "2.52"
 hilt_nav = "1.2.0"
+navigationCompose = "2.8.4"
 retrofit = "2.9.0"
 okhttp = "4.11.0"
 roomRuntime = "2.6.1"
@@ -30,6 +33,9 @@ coreKtxVersion = "1.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+google-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontrollerVersion" }
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

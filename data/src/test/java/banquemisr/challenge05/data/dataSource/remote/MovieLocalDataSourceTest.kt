@@ -45,6 +45,7 @@ class MovieLocalDataSourceTest {
     fun `should save and retrieve movies`() = runTest {
         // Arrange
         val page = 1
+        val category = "popular"
         val movies = listOf(
             Movie(id = 1, title = "Inception"),
             Movie(id = 2, title = "Interstellar")
@@ -57,30 +58,31 @@ class MovieLocalDataSourceTest {
 
         // Mock the DAO interactions
         `when`(movieDao.insertMovies(movieEntities)).thenReturn(Unit)
-        `when`(movieDao.getMoviesByPage(page)).thenReturn(movieEntities)
+        `when`(movieDao.getMoviesByPage(page, category = category)).thenReturn(movieEntities)
 
         // Act
-        movieLocalDataSource.saveMovies(movies, page)
+        movieLocalDataSource.saveMovies(movies, page, category)
 
-        val result = movieLocalDataSource.getMovies(page)
+        val result = movieLocalDataSource.getMovies(page, category)
 
         // Assert
         assertEquals(movies, result)
 
         // Verify the interactions with the DAO
         verify(movieDao).insertMovies(movieEntities)
-        verify(movieDao).getMoviesByPage(page)
+        verify(movieDao).getMoviesByPage(page, category)
     }
 
     @Test
     fun `should return empty list if no movies are cached`() = runTest {
         val movieDao = movieDatabase.movieListDao()
+        val category = "popular"
 
         // Arrange: Mock the response from DAO to return an empty list
-        `when`(movieDao.getMoviesByPage(1)).thenReturn(emptyList())
+        `when`(movieDao.getMoviesByPage(1, category)).thenReturn(emptyList())
 
         // Act: Fetch movies from the local data source
-        val result = movieLocalDataSource.getMovies(1)
+        val result = movieLocalDataSource.getMovies(1, category = category)
 
         // Assert: Ensure that the result is an empty list
         assertTrue(result.isEmpty())

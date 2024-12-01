@@ -14,13 +14,14 @@ class MovieLocalDataSource @Inject constructor(
     private val movieDetailMapper: MovieDetailLocalMapper
 ) {
 
-    suspend fun saveMovies(movies: List<Movie>, page: Int) {
-        val movieListEntities = movies.map { movieListMapper.toEntity(it).copy(page = page) }
+    suspend fun saveMovies(movies: List<Movie>, page: Int, category: String) {
+        val movieListEntities =
+            movies.map { movieListMapper.toEntity(it).copy(page = page, category = category) }
         movieDatabase.movieListDao().insertMovies(movieListEntities)
     }
 
-    suspend fun getMovies(page: Int): List<Movie> {
-        val movieListEntities = movieDatabase.movieListDao().getMoviesByPage(page)
+    suspend fun getMovies(page: Int, category: String): List<Movie> {
+        val movieListEntities = movieDatabase.movieListDao().getMoviesByPage(page, category)
         return movieListEntities.map { movieListMapper.toDomain(it) }
     }
 
