@@ -9,6 +9,7 @@ import banquemisr.challenge05.domain.entities.MovieCategory
 import banquemisr.challenge05.domain.entities.MovieDetail
 import banquemisr.challenge05.domain.repositories.MovieRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -24,6 +25,7 @@ class MovieRepositoryImpl @Inject constructor(
             // First try fetching from the local cache
             val cachedMovies = localDataSource.getMovies(page, category.apiPath)
             if (cachedMovies.isNotEmpty()) {
+                delay(1000)  //Just for now to be able to paginate the UI
                 return@withContext Result.success(cachedMovies)
             }
 

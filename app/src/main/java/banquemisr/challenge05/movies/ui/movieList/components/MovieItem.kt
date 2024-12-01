@@ -1,5 +1,6 @@
 package banquemisr.challenge05.movies.ui.movieList.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,12 +27,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import banquemisr.challenge05.domain.entities.Movie
 import coil.compose.rememberAsyncImagePainter
 
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun MovieItem(movie: Movie, onClick: () -> Unit) {
     val configuration = LocalConfiguration.current
@@ -78,13 +81,13 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
             )
         }
 
-        Spacer(modifier = Modifier.height(itemHeight * 0.1f)) // 10% padding
+        Spacer(modifier = Modifier.height(itemHeight * 0.05f)) // 10% padding
 
         // Text Section
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.3f)
+                .weight(0.4f)
                 .padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -93,9 +96,10 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                 Text(
                     text = it,
                     style = TextStyle(
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                        fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.White,
+                        textAlign = TextAlign.Center
                     ),
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
@@ -112,7 +116,7 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                 )
             }
             Text(
-                text = "\u2605 ${movie.voteAverage?.div(2)}",
+                text = "\u2605 ${String.format("%.1f", movie.voteAverage?.div(2))}",
                 style = TextStyle(
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold,

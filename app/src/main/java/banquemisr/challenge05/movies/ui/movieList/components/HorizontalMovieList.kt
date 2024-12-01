@@ -1,6 +1,6 @@
 package banquemisr.challenge05.movies.ui.movieList.components
 
-import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,11 +11,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import banquemisr.challenge05.domain.entities.Movie
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 
 @Composable
 fun HorizontalMovieList(
@@ -23,33 +27,21 @@ fun HorizontalMovieList(
     isLoadingNextPage: Boolean,
     modifier: Modifier,
     loadNextPage: () -> Unit,
-    lazyListState: LazyListState
+    lazyListState: LazyListState,
+    onItemClick: (Int) -> Unit
 ) {
-    LaunchedEffect(lazyListState) {
-        Log.e("Pagination", "state changed")
-        snapshotFlow { lazyListState.layoutInfo.visibleItemsInfo }
-            .collect { visibleItems ->
-                val lastItemIndex = visibleItems.lastOrNull()?.index
-                Log.e("Pagination", "Last visible item index: $lastItemIndex" + " movieSize: ${movies.size} ")
-
-                lastItemIndex?.let {
-                    if (it >= movies.size - 3 && !isLoadingNextPage) {
-                        loadNextPage()
-                    }
-                }
-            }
-    }
     LazyRow(
         modifier = modifier.fillMaxWidth(),
-        state = lazyListState ,
+        state = lazyListState,
         contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
-        items(movies) { movie ->
-            MovieItem(movie) {
-
+        items(movies, key = { it.id }) { movie ->
+           AnimatedVisibility(true) {
+                MovieItem(movie) {
+                    onItemClick(movie.id)
+                }
             }
         }
-
         // Progress bar at the end of the list for pagination
         if (isLoadingNextPage) {
             item {
@@ -63,5 +55,41 @@ fun HorizontalMovieList(
                 }
             }
         }
+    }
+    // Handle infinite scrolling
+    InfiniteRowHandler(listState = lazyListState, isLoadingNextPage) {
+        loadNextPage()
+    }
+
+}
+
+@Composable
+fun InfiniteRowHandler(
+    listState: LazyListState,
+    isLoadingNextPage: Boolean,
+    buffer: Int = 5,
+    onLoadMore: () -> Unit
+) {
+
+    // Derived state to determine when to load more items
+    val shouldLoadMore = remember {
+        derivedStateOf {
+            // Total number of items in the list
+            val totalItemsCount = listState.layoutInfo.totalItemsCount
+            // Index of the last visible item
+            val lastVisibleItemIndex =
+                listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+            // Check if we have scrolled near the end
+            lastVisibleItemIndex >= (totalItemsCount - buffer)
+        }
+    }
+    // Launch a coroutine when shouldLoadMore becomes true
+    LaunchedEffect(shouldLoadMore) {
+        snapshotFlow { shouldLoadMore.value && !isLoadingNextPage }
+            .distinctUntilChanged()
+            .filter { it }
+            .collect {
+                onLoadMore()
+            }
     }
 }

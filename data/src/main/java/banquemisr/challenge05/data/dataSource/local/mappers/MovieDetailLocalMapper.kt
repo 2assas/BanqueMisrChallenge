@@ -14,7 +14,7 @@ class MovieDetailLocalMapper : Mapper<MovieDetailEntity, MovieDetail> {
             releaseDate = dto.releaseDate,
             posterPath = dto.posterPath,
             overview = dto.overview,
-            genres = dto.genres ?: emptyList(),
+            genres = dto.genres ?: "",
             runtime = dto.runtime,
             voteAverage = dto.voteAverage,
             voteCount = dto.voteCount,

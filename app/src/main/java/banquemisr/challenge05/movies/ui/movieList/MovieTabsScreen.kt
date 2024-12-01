@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,18 +20,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import banquemisr.challenge05.movies.ui.common.ChangeStatusBarColor
-import banquemisr.challenge05.movies.ui.common.getListScreenEventByTabIndex
-import banquemisr.challenge05.movies.ui.movieList.components.HorizontalMovieList
+import banquemisr.challenge05.movies.ui.common.getListScreenIntentByTabIndex
 import banquemisr.challenge05.movies.ui.movieList.components.MovieTabs
+import banquemisr.challenge05.movies.ui.movieList.components.HorizontalMovieList
+import banquemisr.challenge05.movies.ui.navigation.navigateToMovieDetailScreen
 
 @Composable
 fun MovieTabsScreen(
     viewModel: ListScreenViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val state = viewModel.state.collectAsState().value // Collect the ViewModel state
-    val lazyListState = rememberLazyListState()
-    ChangeStatusBarColor()
+    val state = viewModel.state.collectAsState().value
+    ChangeStatusBarColor(MaterialTheme.colorScheme.primary)
+    val lazyListState = rememberLazyListState(viewModel.selectedTabIndex)
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -40,14 +42,17 @@ fun MovieTabsScreen(
 
         topBar = {
             Box(
-                modifier = Modifier.fillMaxWidth().padding(top = 40.dp), // Ensure the Box takes full width
-                contentAlignment = Alignment.Center // Center content horizontally
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 40.dp),
+                contentAlignment = Alignment.Center
             ) {
                 MovieTabs(
                     selectedTabIndex = viewModel.selectedTabIndex,
                     onTabSelected = { index ->
                         viewModel.selectedTabIndex = index
-                        viewModel.handleEvent(index.getListScreenEventByTabIndex())
+                        viewModel.handleIntent(ListScreenIntent.ClearMovies)
+                        viewModel.handleIntent(index.getListScreenIntentByTabIndex())
                     })
             }
         },
@@ -66,19 +71,22 @@ fun MovieTabsScreen(
                             modifier = Modifier
                                 .padding(paddingValues)
                                 .align(Alignment.TopCenter),
+                            loadNextPage = {
+                                viewModel.handleIntent(ListScreenIntent.LoadNextPage)
+                            },
+                            lazyListState = lazyListState,
                             isLoadingNextPage = state.isLoadingNextPage,
-                            loadNextPage = { viewModel.handleEvent(ListScreenEvent.LoadNextPage) },
-                            lazyListState = lazyListState
+                            onItemClick = { id ->
+                                navController.navigateToMovieDetailScreen(movieId = id)
+                            }
                         )
                     }
 
                     is ListScreenState.Loading -> {
-                        // Show a loading screen (initial loading)
                         CircularProgressIndicator(modifier = Modifier.padding(paddingValues))
                     }
 
                     is ListScreenState.Error -> {
-                        // Show an error message
                         Text("Failed to load movies", modifier = Modifier.padding(paddingValues))
                     }
                 }
